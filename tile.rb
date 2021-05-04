@@ -1,8 +1,10 @@
 class Tile
   attr_reader :bomb, :revealed, :flagged
+  attr_writer :neighbors
 
   def initialize(bomb)
     @bomb = bomb
+    @neighbors = nil
     @revealed = false
     @flagged = false
   end

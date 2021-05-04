@@ -20,6 +20,16 @@ class Board
       Tile.new(has_bomb)
     end
     @board = (0...SIZE).map { |i| tiles[i * SIZE...(i + 1) * SIZE] }
+    set_tile_neighbors
+  end
+
+  def set_tile_neighbors
+    (0...SIZE).each do |row|
+      (0...SIZE).each do |col|
+        pos = [row, col]
+        self[pos].neighbors = neighbors(pos)
+      end
+    end
   end
 
   def render
