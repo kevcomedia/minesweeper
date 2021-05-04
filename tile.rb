@@ -24,10 +24,12 @@ class Tile
   def to_s
     return 'F' if @flagged
     return '*' unless @revealed
-    @bomb ? '@' : '_'
+    return '@' if @bomb
+    neighbor_bomb_count = self.neighbor_bomb_count
+    neighbor_bomb_count > 0 ? neighbor_bomb_count.to_s : '_'
   end
 
-  def self.bomb_count(tiles)
-    tiles.count(&:bomb)
+  def neighbor_bomb_count
+    @neighbors.count(&:bomb)
   end
 end
