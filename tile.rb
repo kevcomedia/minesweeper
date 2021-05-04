@@ -9,4 +9,9 @@ class Tile
   def reveal
     @revealed = true
   end
+
+  def to_s
+    return '*' unless @revealed
+    @bomb ? '@' : '_'
+  end
 end

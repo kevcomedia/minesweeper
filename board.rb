@@ -16,4 +16,11 @@ class Board
     end
     @board = (0...SIZE).map { |i| tiles[i * SIZE...(i + 1) * SIZE] }
   end
+
+  def render
+    @board.each do |row|
+      puts row.join
+    end
+    nil
+  end
 end
