@@ -1,6 +1,6 @@
 class Tile
   attr_reader :bomb, :revealed, :flagged
-  attr_writer :neighbors
+  attr_accessor :neighbors
 
   def initialize(bomb)
     @bomb = bomb
@@ -31,5 +31,11 @@ class Tile
 
   def neighbor_bomb_count
     @neighbors.count(&:bomb)
+  end
+
+  def revealable_neighbors
+    neighbors
+      .reject(&:flagged)
+      .reject(&:revealed)
   end
 end

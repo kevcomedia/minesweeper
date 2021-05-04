@@ -32,6 +32,20 @@ class Board
     end
   end
 
+  def reveal(pos)
+    tile = self[pos]
+    tile_queue = [tile]
+    until tile_queue.empty?
+      current_tile = tile_queue.shift
+      next if current_tile.flagged
+
+      current_tile.reveal
+      unless current_tile.bomb || current_tile.neighbor_bomb_count > 0
+        tile_queue += current_tile.revealable_neighbors
+      end
+    end
+  end
+
   def render
     @board.each do |row|
       puts row.join
