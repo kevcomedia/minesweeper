@@ -28,4 +28,21 @@ class Board
     end
     nil
   end
+
+  def neighbors(pos)
+    neighbor_pos(pos).map { |p| self[p] }
+  end
+
+  def neighbor_pos(pos)
+    row, col = pos
+    (row - 1..row + 1).flat_map do |r|
+      (col - 1..col + 1).map { |c| [r, c] }
+        .select { |p| Board::valid_pos?(p) }
+        .reject { |p| p == pos }
+    end
+  end
+
+  def self.valid_pos?(pos)
+    pos.all? { |p| 0 <= p && p < SIZE }
+  end
 end
