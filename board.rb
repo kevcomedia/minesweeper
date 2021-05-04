@@ -34,6 +34,8 @@ class Board
 
   def reveal(pos)
     tile = self[pos]
+    return if tile.revealed
+
     tile_queue = [tile]
     until tile_queue.empty?
       current_tile = tile_queue.shift
