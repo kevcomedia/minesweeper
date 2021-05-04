@@ -24,4 +24,8 @@ class Tile
     return '*' unless @revealed
     @bomb ? '@' : '_'
   end
+
+  def self.bomb_count(tiles)
+    tiles.count(&:bomb)
+  end
 end
