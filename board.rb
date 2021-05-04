@@ -46,6 +46,10 @@ class Board
     end
   end
 
+  def toggle_flag(pos)
+    self[pos].toggle_flag
+  end
+
   def render
     @board.each do |row|
       puts row.join
