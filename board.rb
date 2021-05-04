@@ -8,6 +8,11 @@ class Board
     @board = nil
   end
 
+  def [](pos)
+    row, col = pos
+    @board[row][col]
+  end
+
   def seed
     bomb_locations = (0...SIZE**2).to_a.sample(BOMBS)
     tiles = (0...SIZE**2).map do |i|
