@@ -52,6 +52,15 @@ class Board
     self[pos].toggle_flag
   end
 
+  def bomb_revealed?
+    @board.flatten.any? { |tile| tile.bomb && tile.revealed }
+  end
+
+  def cleared?
+    remaining_tiles = @board.flatten.reject(&:revealed)
+    remaining_tiles.length == BOMBS && remaining_tiles.all?(&:bomb)
+  end
+
   def render
     @board.each do |row|
       puts row.join
