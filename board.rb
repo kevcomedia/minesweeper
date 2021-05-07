@@ -61,11 +61,41 @@ class Board
     remaining_tiles.length == BOMBS && remaining_tiles.all?(&:bomb)
   end
 
+  def game_over?
+    cleared? || bomb_revealed?
+  end
+
   def render
     @board.each do |row|
       puts row.join
     end
     nil
+  end
+
+  def prompt
+    puts
+    puts "Enter an action, a row and column (e.g., 'r 2 5')"
+    puts "Actions:"
+    puts " r - reveal"
+    puts " f - flag"
+    action, *pos = gets.chomp.downcase.split
+    raise "invalid action" unless action == 'r' || action == 'f'
+    raise "invalid pos" unless pos.length == 2
+    begin
+      pos = pos.map { |p| Integer(p) }
+    rescue
+      raise "invalid pos"
+    end
+    [action, pos]
+  end
+
+  def do_action(action, pos)
+    case action
+    when 'r'
+      reveal(pos)
+    when 'f'
+      toggle_flag(pos)
+    end
   end
 
   def neighbors(pos)
@@ -83,5 +113,25 @@ class Board
 
   def self.valid_pos?(pos)
     pos.all? { |p| 0 <= p && p < SIZE }
+  end
+
+  def play
+    seed
+    until game_over?
+      begin
+        render
+        action, pos = prompt
+        do_action(action, pos)
+      rescue => err
+        puts err.message
+      end
+    end
+
+    render
+    if cleared?
+      puts "You won!"
+    elsif bomb_revealed?
+      puts "Aww..."
+    end
   end
 end
