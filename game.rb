@@ -51,3 +51,8 @@ class Game
     end
   end
 end
+
+if __FILE__ == $PROGRAM_NAME
+  g = Game.new
+  g.play
+end
