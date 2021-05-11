@@ -6,8 +6,18 @@ class Game
     @board = Board.new
   end
 
-  def play
-    @board.seed
+  def play(save_file)
+    if save_file.nil?
+      @board.seed
+    else
+      begin
+        self.load(save_file)
+      rescue => err
+        puts err.message
+        return
+      end
+    end
+
     until @board.game_over?
       begin
         @board.render
@@ -30,6 +40,23 @@ class Game
     serialized_board = @board.to_yaml
     Dir.mkdir('saves') unless Dir.exist?('saves')
     File.open('./saves/save', 'w+') { |f| f.write(serialized_board) }
+  end
+
+  def load(save_file)
+    begin
+      content = File.readlines(save_file)
+      @board = YAML::load(content.join)
+    rescue Errno::ENOENT
+      raise "couldn't read file `#{save_file}`"
+    rescue Errno::EACCES
+      raise "permission denied: `#{save_file}`"
+    rescue Psych::SyntaxError
+      raise "couldn't load data from `#{save_file}`"
+    rescue => err
+      puts "something else went wrong..."
+      puts err.backtrace
+      raise err
+    end
   end
 
   def prompt
@@ -67,6 +94,7 @@ class Game
 end
 
 if __FILE__ == $PROGRAM_NAME
+  save_file = ARGV.shift
   g = Game.new
-  g.play
+  g.play(save_file)
 end
