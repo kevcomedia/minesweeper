@@ -19,9 +19,7 @@ class Game
     end
   end
 
-  def play(save_file)
-    init_board(save_file)
-
+  def play
     until @board.game_over?
       begin
         @board.render
@@ -31,6 +29,11 @@ class Game
         puts err.message
       end
     end
+  end
+
+  def start(save_file)
+    init_board(save_file)
+    play
 
     @board.render
     if @board.cleared?
@@ -115,5 +118,5 @@ end
 if __FILE__ == $PROGRAM_NAME
   save_file = ARGV.shift
   g = Game.new
-  g.play(save_file)
+  g.start(save_file)
 end
