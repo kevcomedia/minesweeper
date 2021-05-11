@@ -37,6 +37,8 @@ class Game
   end
 
   def save(save_file)
+    save_file = 'save' if save_file.empty?
+
     serialized_board = @board.to_yaml
     begin
       Dir.mkdir('saves') unless Dir.exist?('saves')
