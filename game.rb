@@ -6,6 +6,12 @@ class Game
     @board = Board.new
   end
 
+  def start(save_file)
+    init_board(save_file)
+    play
+    display_results
+  end
+
   def init_board(save_file)
     if save_file.nil?
       @board.seed
@@ -31,10 +37,7 @@ class Game
     end
   end
 
-  def start(save_file)
-    init_board(save_file)
-    play
-
+  def display_results
     @board.render
     if @board.cleared?
       puts "You won!"
