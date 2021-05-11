@@ -55,4 +55,8 @@ class Tile
       .reject(&:flagged)
       .reject(&:revealed)
   end
+
+  def inspect
+    { bomb: @bomb, revealed: @revealed, flagged: @flagged }.inspect
+  end
 end
