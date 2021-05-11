@@ -36,10 +36,23 @@ class Game
     end
   end
 
-  def save
+  def save(save_file)
     serialized_board = @board.to_yaml
-    Dir.mkdir('saves') unless Dir.exist?('saves')
-    File.open('./saves/save', 'w+') { |f| f.write(serialized_board) }
+    begin
+      Dir.mkdir('saves') unless Dir.exist?('saves')
+      File.open("./saves/#{save_file}", 'w+') do
+        |f| f.write(serialized_board)
+      end
+      puts "Game saved: `saves/#{save_file}`"
+    rescue IOError
+      raise "coundn't save file: `#{save_file}`"
+    rescue Errno::EACCES
+      raise "permission denied: `#{save_file}`"
+    rescue => err
+      puts "something else went wrong..."
+      p err.backtrace
+      raise err
+    end
   end
 
   def load(save_file)
@@ -86,7 +99,7 @@ class Game
     when 'f'
       @board.toggle_flag(parse_pos(args))
     when 's'
-      save
+      save(args.join(' '))
     else
       raise 'invalid action'
     end
