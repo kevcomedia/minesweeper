@@ -86,11 +86,10 @@ class Game
 
   def prompt
     puts
-    puts "Enter an action, a row and column (e.g., 'r 2 5')"
     puts "Actions:"
-    puts " r - reveal"
-    puts " f - flag"
-    puts " s - save"
+    puts " r <row> <col> - reveal"
+    puts " f <row> <col> - flag"
+    puts " s <save name> - save"
     action, *args = gets.chomp.downcase.split
     [action, args]
   end
