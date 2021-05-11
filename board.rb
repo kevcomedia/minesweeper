@@ -9,6 +9,7 @@ class Board
   end
 
   def [](pos)
+    raise "invalid pos" unless self.class::valid_pos?(pos)
     row, col = pos
     @board[row][col]
   end
