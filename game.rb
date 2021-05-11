@@ -6,7 +6,7 @@ class Game
     @board = Board.new
   end
 
-  def play(save_file)
+  def init_board(save_file)
     if save_file.nil?
       @board.seed
     else
@@ -14,9 +14,13 @@ class Game
         self.load(save_file)
       rescue => err
         puts err.message
-        return
+        exit
       end
     end
+  end
+
+  def play(save_file)
+    init_board(save_file)
 
     until @board.game_over?
       begin
