@@ -66,8 +66,8 @@ class Game
     puts " r - reveal"
     puts " f - flag"
     puts " s - save"
-    action, *pos = gets.chomp.downcase.split
-    [action, pos]
+    action, *args = gets.chomp.downcase.split
+    [action, args]
   end
 
   def parse_pos(pos)
@@ -79,12 +79,12 @@ class Game
     end
   end
 
-  def do_action(action, pos)
+  def do_action(action, args)
     case action
     when 'r'
-      @board.reveal(parse_pos(pos))
+      @board.reveal(parse_pos(args))
     when 'f'
-      @board.toggle_flag(parse_pos(pos))
+      @board.toggle_flag(parse_pos(args))
     when 's'
       save
     else
